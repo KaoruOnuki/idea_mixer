@@ -1,49 +1,69 @@
 <h1>Idea mixer</h1>
-<p>cardsで登録したcontentをランダムにcard1とcard2のコラムに入れて</p>
-<p>idea contentコラムにすでに何か入ってたらそれを表示　＋　編集できるようにする</p>
-<p>else idea contentコラムに新規投稿できるようにする</p>
+
+<p id="notice"><%= notice %></p>
 
 <div class="random_records">
-  <% array = [] %>
-  <% @randoms.each do |random| %>
-    <%= random.content %>
-    <% array << random.id %>
+  <div>今回のお題は。。。
+    <% array = [] %>
+    <% @randoms.each do |random| %>
+      <%= random.content %>
+      <% array << random.id %>
+    <% end %>
+  </div>
+</div>
+
+<div class="input_idea">
+  <%= form_for(@idea) do |form| %>
+    <% if @idea.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
+
+        <ul>
+        <% @idea.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="chosen_cards">
+      <%= form.label :card_one %>
+      <%= form.text_field :card_one, value: @cards.find(array[0]).content, readonly: "readonly" %>
+
+      <%= form.label :card_two %>
+      <%= form.text_field :card_two, value: @cards.find(array[1]).content, readonly: "readonly" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :idea_content %>
+      <%= form.text_field :idea_content, id: :idea_content %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
   <% end %>
 </div>
 
-<%= array %>
 
 
-<%= form_for(@idea) do |form| %>
-  <% if @idea.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
-
-      <ul>
-      <% @idea.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+<div>
+  <p>Card oneが被っているもの</p>
+  <% @selected_on_card_one.each do |s| %>
+  <ul>
+    <li><%= s.idea_content %></li>
+  </ul>
   <% end %>
+</div>
 
-  <div class="chosen_cards">
-    <%= form.label :card_one %>
-    <%= form.text_field :card_one, value: @cards.find(array[0]).content, readonly: "readonly" %>
-
-    <%= form.label :card_two %>
-    <%= form.text_field :card_two, value: @cards.find(array[1]).content, readonly: "readonly" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :idea_content %>
-    <%= form.text_field :idea_content, id: :idea_content %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+<div>
+  <p>Card twoが被っているもの</p>
+  <% @selected_on_card_two.each do |s| %>
+  <ul>
+    <li><%= s.idea_content %></li>
+  </ul>
+  <% end %>
+</div>
 
 
 <table>
@@ -65,8 +85,6 @@
     <% end %>
   </tbody>
 </table>
-
-
 
 <br>
 
