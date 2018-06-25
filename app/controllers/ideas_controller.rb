@@ -1,4 +1,5 @@
 class IdeasController < ApplicationController
+  before_action :your_page, only: [:index, :new, :edit, :show, :destroy]
   # before_action :set_idea, only: [:show, :edit, :update, :destroy]
   def index
     @ideas = Idea.all
@@ -70,5 +71,11 @@ private
 
   def idea_params
     params.require(:idea).permit(:card_one, :card_two, :idea_content)
+  end
+
+  def your_page
+    unless logged_in?
+      redirect_to new_session_path
+    end
   end
 end
