@@ -27,6 +27,7 @@ class IdeasController < ApplicationController
   def create
     @ideas = Idea.all
     @idea = Idea.new(idea_params)
+    @idea.user_id = current_user.id
 
     @cards = Card.all
     @randoms = [Card.find_by(content: @idea.card_one), Card.find_by(content: @idea.card_two)]
@@ -46,6 +47,7 @@ class IdeasController < ApplicationController
   end
 
   def update
+    @idea.user_id = current_user.id
     respond_to do |format|
       if @idea.update(idea_params)
         format.html { redirect_to @idea, notice: 'idea was successfully updated.' }

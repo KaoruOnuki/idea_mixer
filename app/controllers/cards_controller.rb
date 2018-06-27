@@ -18,6 +18,7 @@ class CardsController < ApplicationController
 
   def create
     @card = Card.new(card_params)
+    @card.user_id = current_user.id
 
     respond_to do |format|
       if @card.save
@@ -31,6 +32,7 @@ class CardsController < ApplicationController
   end
 
   def update
+    @card.user_id = current_user.id
     respond_to do |format|
       if @card.update(card_params)
         format.html { redirect_to @card, notice: 'Card was successfully updated.' }

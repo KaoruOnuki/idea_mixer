@@ -12,13 +12,18 @@
     <% flash.each do |key, value| %>
       <%= content_tag(:div, value, class: "#{key}") %>
     <% end %>
-    <% if logged_in? %>
-      <%= link_to "profile", user_path(current_user.id) %>
-      <%= link_to "logout", session_path(current_user.id), method: :delete %>
-    <% else %>
-      <%= link_to "signup", new_user_path %>
-      <%= link_to "login", new_session_path %>
-    <% end %>
+
+    <header>
+      <% if logged_in? %>
+        <p><%= current_user.name %>としてログイン中</p>
+        <%= link_to "profile", user_path(current_user.id) %>
+        <%= link_to "logout", session_path(current_user.id), method: :delete %>
+      <% else %>
+        <%= link_to "signup", new_user_path %>
+        <%= link_to "login", new_session_path %>
+      <% end %>
+    </header>
+
     <%= yield %>
   </body>
 </html>
