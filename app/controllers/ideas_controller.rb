@@ -49,6 +49,7 @@ class IdeasController < ApplicationController
 
   def update
     @idea.user_id = current_user.id
+    render :edit if @idea.invalid?
     respond_to do |format|
       if @idea.update(idea_params)
         format.html { redirect_to @idea, notice: 'idea was successfully updated.' }
