@@ -79,6 +79,7 @@
         <td><%= idea.card_one %></td>
         <td><%= idea.card_two %></td>
         <td><%= idea.idea_content %></td>
+        <td><%= link_to "Show", idea_path(id: idea.id) %></td>
         <% if idea.user.id == current_user.id %>
           <td><%= link_to "Edit", edit_idea_path(id: idea.id) %></td>
           <td><%= link_to "Destroy", idea, method: :delete, data: { confirm: 'Are you sure?' } %></td>

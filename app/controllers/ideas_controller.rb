@@ -15,6 +15,7 @@ class IdeasController < ApplicationController
 
 
   def show
+    @like = current_user.likes.find_by(idea_id: @idea.id)
   end
 
   def new
