@@ -14,9 +14,12 @@
     <% @cards.each do |card| %>
       <tr>
         <td><%= card.content %></td>
-        <td><%= link_to 'Show', card %></td>
-        <td><%= link_to 'Edit', edit_card_path(card) %></td>
-        <td><%= link_to 'Destroy', card, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if card.user.id == current_user.id %>
+          <td><%= link_to 'Show', card %></td>
+          <td><%= link_to 'Edit', edit_card_path(card) %></td>
+          <td><%= link_to 'Destroy', card, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+        <td><%= card.user.name %>の投稿</td>
       </tr>
     <% end %>
   </tbody>
@@ -24,4 +27,5 @@
 
 <br>
 
-<%= link_to 'New Card', new_card_path %>
+<p><%= link_to 'New Card', new_card_path %></p>
+<p><%= link_to 'Idea mixer', ideas_path %></p>

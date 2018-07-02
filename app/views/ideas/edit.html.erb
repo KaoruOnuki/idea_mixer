@@ -1,0 +1,31 @@
+<h1>Editing Idea</h1>
+
+<div>今回のお題は。。
+  <%= @idea.card_one %>
+  <%= @idea.card_two %>
+</div>
+
+<%= form_with(model: @idea, local: true) do |form| %>
+  <% if @idea.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@idea.errors.count, "error") %> prohibited this card from being saved:</h2>
+
+      <ul>
+      <% @idea.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :idea_content %>
+    <%= form.text_field :idea_content, id: :idea_content %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'back', ideas_path %>

@@ -1,0 +1,17 @@
+<h1><%= @user.name %>のページ</h1>
+
+<br>
+
+<div class="likes_table">
+    <p><i class="far fa-thumbs-up"></i>イイネしたidea_content</p>
+    <% @user.likes.each do |l| %>
+      <p><%= Idea.all.find(l.idea_id).idea_content %></p>
+      <p><%= link_to "詳細", idea_path(l.idea_id) %></p>
+    <% end %>
+
+</div>
+
+<br>
+
+<p><%= link_to "アイディア出しカードの登録", root_path %></p>
+<p><%= link_to "Idea mixer", ideas_path %></p>

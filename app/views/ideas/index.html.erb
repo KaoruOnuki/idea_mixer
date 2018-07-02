@@ -1,2 +1,95 @@
-<h1>Ideas#index</h1>
-<p>Find me in app/views/ideas/index.html.erb</p>
+<h1>Idea mixer</h1>
+
+<p id="notice"><%= notice %></p>
+
+<div class="random_records">
+  <div>今回のお題は。。。
+    <% array = [] %>
+    <% @randoms.each do |random| %>
+      <%= random.content %>
+      <% array << random.id %>
+    <% end %>
+  </div>
+</div>
+
+<div class="input_idea">
+  <%= form_for(@idea) do |form| %>
+    <% if @idea.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
+
+        <ul>
+        <% @idea.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="chosen_cards">
+      <%= form.label :card_one %>
+      <%= form.text_field :card_one, value: @cards.find(array[0]).content, readonly: "readonly" %>
+
+      <%= form.label :card_two %>
+      <%= form.text_field :card_two, value: @cards.find(array[1]).content, readonly: "readonly" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :idea_content %>
+      <%= form.text_field :idea_content, id: :idea_content %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
+</div>
+
+<div>
+  <p>Card oneが被っているもの</p>
+  <% @selected_on_card_one.each do |s| %>
+  <ul>
+    <li><%= s.idea_content %></li>
+  </ul>
+  <% end %>
+</div>
+
+<div>
+  <p>Card twoが被っているもの</p>
+  <% @selected_on_card_two.each do |s| %>
+  <ul>
+    <li><%= s.idea_content %></li>
+  </ul>
+  <% end %>
+</div>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>card_one</th>
+      <th>card_two</th>
+      <th>idea_content</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ideas.each do |idea| %>
+      <tr>
+        <td><%= idea.card_one %></td>
+        <td><%= idea.card_two %></td>
+        <td><%= idea.idea_content %></td>
+        <td><%= link_to "Show", idea_path(id: idea.id) %></td>
+        <% if idea.user.id == current_user.id %>
+          <td><%= link_to "Edit", edit_idea_path(id: idea.id) %></td>
+          <td><%= link_to "Destroy", idea, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+        <td><%= idea.user.name %>の投稿</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<p><%= link_to 'Cards', cards_path %></p>

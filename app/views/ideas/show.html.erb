@@ -1,0 +1,18 @@
+<h1>詳細</h1>
+<div><%=  @idea.idea_content %></div>
+
+<% unless @idea.user == current_user %>
+  <% if @like.present? %>
+    <%= link_to like_path(id: @like.id), method: :delete, class: 'btn btn-danger' do %>
+      <i class="far fa-thumbs-down"></i>
+    <% end %>
+  <% else %>
+    <%= link_to likes_path(idea_id: @idea.id), method: :post, class: 'btn btn-primary' do %>
+      <i class="far fa-thumbs-up"></i>
+    <% end %>
+  <% end %>
+<% end %>
+
+<br>
+
+<%= link_to 'Back', ideas_path %>

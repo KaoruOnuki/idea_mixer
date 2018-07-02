@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
-  get 'ideas/index'
+  get 'sessions/new'
+  resources :sessions, only: [:new, :create, :destroy]
 
+  root "cards#index"
   resources :cards
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :ideas
+
+  resources :users
+  resources :likes, only: [:create, :destroy]
 end
